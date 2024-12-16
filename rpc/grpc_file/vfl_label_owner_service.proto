@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+message lr_train_forward_request_label_owner{
+  int32 server_id = 1;
+  int32 batch_index = 2;
+  //  bytes summed_forward_result = 3;
+  repeated float summed_forward_result = 3;
+}
+
+message lr_train_forward_response_label_owner{
+  int32 server_id = 1;
+  //  bytes batch_gradient = 2;
+  repeated float batch_gradient = 2;
+  bool early_stop = 3;
+}
+
+message lr_test_forward_request_label_owner{
+  int32 server_id = 1;
+  int32 batch_index = 2;
+  //  bytes summed_test_result = 3;
+  repeated float summed_test_result = 3;
+}
+
+message lr_test_forward_response_label_owner{
+  int32 server_id = 1;
+  bool receive_flag = 2;
+}
+
+message mlp_train_top_forward_request{
+  int32 server_id = 1;
+  int32 batch_index = 2;
+  repeated internal_top_forward top_forward = 3;
+}
+
+message mlp_train_top_forward_response{
+  int32 server_id = 1;
+  repeated internal_batch_gradient batch_gradient = 2;
+  bool early_stop = 3;
+}
+
+message mlp_test_top_forward_request{
+  int32 server_id = 1;
+  int32 batch_index = 2;
+  repeated internal_top_forward top_forward = 3;
+}
+
+message mlp_test_top_forward_response{
+  int32 server_id = 1;
+  bool receive_flag = 2;
+}
+
+message internal_top_forward{
+  repeated float forward = 1;
+}
+
+message internal_batch_gradient{
+  repeated float grad = 1;
+}
+
+message sample_rows{
+  repeated int32 signatures = 1;
+}
+
+message server_hash_info_request{
+  int32 server_id = 1;
+  repeated bytes hash_info = 2;
+}
+
+message label_owner_selected_lsh_index_response{
+  int32 server_id = 1;
+//  bytes align_index = 2;
+  repeated int32 selected_index = 2;
+}
+
+
+service VFLLabelOwnerService{
+  rpc get_lr_train_batch_gradient(lr_train_forward_request_label_owner) returns (lr_train_forward_response_label_owner);
+  rpc calculate_lr_test_accuracy(lr_test_forward_request_label_owner) returns (lr_test_forward_response_label_owner);
+
+  rpc get_mlp_train_batch_gradient(mlp_train_top_forward_request) returns (mlp_train_top_forward_response);
+  rpc calculate_mlp_test_accuracy(mlp_test_top_forward_request) returns (mlp_test_top_forward_response);
+
+  rpc calculate_client_selected_lsh_index(server_hash_info_request) returns (label_owner_selected_lsh_index_response);
+}

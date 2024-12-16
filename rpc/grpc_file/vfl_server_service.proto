@@ -1,0 +1,117 @@
+syntax = "proto3";
+
+message lr_train_forward_request{
+  int32 cid = 1;
+  int32 batch_index = 2;
+  //  bytes forward_result = 4;
+  repeated float forward_result = 3;
+}
+
+message lr_train_forward_response{
+  int32 cid = 1;
+//  bytes batch_gradient = 2;
+  repeated float batch_gradient = 2;
+  bool early_stop = 3;
+}
+
+message lr_test_forward_request{
+  int32 cid = 1;
+  int32 batch_index = 2;
+  //  bytes test_forward = 3;
+  repeated float test_forward = 3;
+}
+
+message lr_test_forward_response{
+  int32 cid = 1;
+  bool continue_iter = 2;
+}
+
+message mlp_train_bottom_forward_request{
+  int32 cid = 1;
+  int32 batch_index = 2;
+  int32 epoch = 3;
+//  bytes bottom_forward = 4;
+  repeated internal_bottom_forward bottom_forward = 4;
+}
+
+message mlp_train_batch_gradient_response{
+  int32 cid = 1;
+//  bytes batch_gradient = 2;
+  repeated internal_split_grad batch_gradient = 2;
+  bool early_stop = 3;
+}
+
+message mlp_test_bottom_forward_request{
+  int32 cid = 1;
+  int32 batch_index = 2;
+//  bytes bottom_forward = 3;
+  repeated internal_bottom_forward bottom_forward = 3;
+}
+
+message mlp_test_bottom_forward_response{
+  int32 cid = 1;
+  bool continue_iter = 2;
+}
+
+message internal_bottom_forward{
+  repeated float forward = 1;
+}
+
+message internal_split_grad{
+  repeated float grad = 1;
+}
+
+message sample_row{
+  repeated int32 ids = 1;
+}
+
+message hash_infos{
+  repeated int32 hash_value = 1;
+  repeated sample_row rows = 2;
+}
+
+message client_hash_info_request{
+  int32 cid = 1;
+  repeated bytes hash_info = 2;
+}
+
+message vfl_server_selected_lsh_index_response{
+  int32 cid = 1;
+  //  bytes align_index = 2;
+  repeated int32 selected_index = 2;
+}
+
+message kmeans_finish_request{
+  int32 cid = 1;
+  bool kmeans_finish = 2;
+}
+
+message kmeans_finish_response{
+  int32 cid = 1;
+  bool psi_permission = 2;
+}
+
+message client_weight_request{
+  int32 cid = 1;
+  float weight = 2;
+//  int32 num_features = 3;
+}
+
+message client_weight_allocation_response{
+  int32 cid = 1;
+  int32 num_hash_functions = 2;
+}
+
+service VFLServerService{
+  rpc gather_lr_train_forward(lr_train_forward_request) returns (lr_train_forward_response);
+  rpc gather_lr_test_forward(lr_test_forward_request) returns (lr_test_forward_response);
+
+  rpc gather_mlp_train_bottom_forward(mlp_train_bottom_forward_request) returns (mlp_train_batch_gradient_response);
+  rpc gather_mlp_test_bottom_forward(mlp_test_bottom_forward_request) returns (mlp_test_bottom_forward_response);
+
+  rpc get_client_selected_lsh_index(client_hash_info_request) returns (vfl_server_selected_lsh_index_response);
+
+  rpc invite_label_owner_psi_server(kmeans_finish_request) returns (kmeans_finish_response);
+  rpc get_client_weight_allocation(client_weight_request) returns (client_weight_allocation_response);
+
+}

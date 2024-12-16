@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+message lr_train_batch_gradient_request{
+  int32 server_id = 1;
+  int32 batch_index = 2;
+//  bytes batch_gradient = 3;
+  repeated float batch_gradient = 3;
+}
+
+message lr_train_batch_gradient_response{
+  int32 server_id = 1;
+  bool receive_flag = 2;
+}
+
+
+service VFLClientService{
+  rpc send_lr_train_batch_gradient(lr_train_batch_gradient_request) returns (lr_train_batch_gradient_response);
+}
