@@ -1,0 +1,13 @@
+is_regression: True
+dataset_name: "hp"
+data_path: "../../datasets/raw_data/HousePricing.csv"
+epochs: 100
+batch_size_normal:
+batch_size_lsh:
+lr:
+lr_gamma:
+lr_step:
+kmeans:
+  k_per_clients:  # core-set size
+num_hash_funs: # total number of hash functions
+bucket_width: 9

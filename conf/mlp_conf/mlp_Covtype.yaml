@@ -1,0 +1,15 @@
+is_regression: False
+dataset_name: "covtype"
+data_path: "../../datasets/raw_data/Covtype.csv"
+epochs: 100
+batch_size_normal:
+batch_size_lsh:
+lr:
+lr_gamma:
+lr_step:
+n_bottom_out: 32
+n_top_out: 7
+kmeans:
+  k_per_clients:  # core-set size
+num_hash_funs: # total number of hash functions
+bucket_width: 9

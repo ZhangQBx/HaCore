@@ -1,0 +1,36 @@
+vfl_server:
+  host: '127.0.0.1'
+  port: '50099'
+vfl_label_owner:
+  host: '127.0.0.1'
+  port: '50095'
+vfl_client_1:
+  host: '127.0.0.1'
+  port: '50051'
+vfl_client_2:
+  host: '127.0.0.1'
+  port: '50052'
+vfl_client_3:
+  host: '127.0.0.1'
+  port: '50053'
+vfl_client_4:
+  host: '127.0.0.1'
+  port: '50064'
+vfl_client_5:
+  host: '127.0.0.1'
+  port: '50055'
+vfl_client_6:
+  host: '127.0.0.1'
+  port: '50056'
+vfl_client_7:
+  host: '127.0.0.1'
+  port: '50057'
+vfl_client_8:
+  host: '127.0.0.1'
+  port: '50058'
+vfl_client_9:
+  host: '127.0.0.1'
+  port: '50059'
+vfl_client_10:
+  host: '127.0.0.1'
+  port: '50060'
